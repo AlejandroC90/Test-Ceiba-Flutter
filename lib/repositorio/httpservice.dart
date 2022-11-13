@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 
@@ -12,8 +10,7 @@ class HttpService {
 
   static final HttpService _instance = HttpService._internal();
 
-  Future<http.Response?> get(
-      {required String ruta, required String token}) async {
+  Future<http.Response?> get({required String ruta}) async {
     Response? respuesta;
     try {
       respuesta = await http

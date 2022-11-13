@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:prueba_ceiba_flutter/repositorio/model/usuario.dart';
 import 'package:prueba_ceiba_flutter/ui/botones/boton_normal.dart';
 
 import '../../static/colors.dart';
 
+///Tarjeta que se muestra con los datos de cada usuario,
+///recibe un Modelo de tipo ModeloUsuario
 class TarjetaUsuario extends StatelessWidget {
-  const TarjetaUsuario({super.key});
+  final ModeloUsuario modeloUsuario;
+  const TarjetaUsuario({super.key, required this.modeloUsuario});
 
   @override
   Widget build(BuildContext context) {
@@ -15,15 +19,15 @@ class TarjetaUsuario extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Nombre Usuario",
+              modeloUsuario.nombre!,
               textAlign: TextAlign.start,
               style: Theme.of(context)
                   .textTheme
                   .headline6!
                   .copyWith(color: ColoresApp.colorVerdeCeiba),
             ),
-            filaDatosUsuario(Icons.phone, "12312312323"),
-            filaDatosUsuario(Icons.email, "correo@correo.com"),
+            filaDatosUsuario(Icons.phone, modeloUsuario.telefono!),
+            filaDatosUsuario(Icons.email, modeloUsuario.correo!),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
@@ -41,9 +45,11 @@ class TarjetaUsuario extends StatelessWidget {
       children: [
         Icon(
           icono,
-          color: Colors.green,
+          color: ColoresApp.colorVerdeCeiba,
         ),
-        const SizedBox(width: 5,),
+        const SizedBox(
+          width: 5,
+        ),
         Text(texto)
       ],
     );
