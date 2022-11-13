@@ -33,6 +33,12 @@ class PostsUsuario extends StatelessWidget {
                           builder: ((context) {
                             return const DialogCargando();
                           }));
+                    } else if (state is PostsUsuarioError) {
+                      Navigator.of(context).pop();
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        content: Text("Ha ocurrido un error..."),
+                        backgroundColor: Colors.red,
+                      ));
                     } else {
                       Navigator.of(context).pop();
                     }
@@ -48,7 +54,7 @@ class PostsUsuario extends StatelessWidget {
                       );
                     } else if (state is PostsUsuarioError) {
                       return Center(
-                        child: TextButton(
+                        child: ElevatedButton(
                             onPressed: (() => context
                                 .read<PostsUsuarioBloc>()
                                 .add(CargarPostsUsuario(usuario.id!))),

@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
+import 'package:prueba_ceiba_flutter/repositorio/base_datos_service.dart';
 import 'package:prueba_ceiba_flutter/repositorio/model/usuario.dart';
 
 import '../../repositorio/api.dart';
@@ -60,6 +61,9 @@ class UsuariosBloc extends Bloc<UsuariosEvent, UsuariosState> {
             ModeloUsuario usuario = ModeloUsuario.fromJson(e);
             listadoUsuarios.add(usuario);
           }
+          //guardamos una copia de los usuarios en local
+          await BaseDatosService()
+              .guardarUsuariosBaseDatos(listadoUsuarios: listadoUsuarios);
           //enviando usuarios mapeados a la interfaz
           emit(UsuariosCargados(listadoUsuarios, true));
           return;
@@ -71,6 +75,18 @@ class UsuariosBloc extends Bloc<UsuariosEvent, UsuariosState> {
       }
     }
     //ocurrio un error al realizar la peticion
-    emit(UsuariosError());
+    //hay que buscar los usuarios almacenados en local
+    try {
+      listadoUsuarios = await BaseDatosService().leerUsuariosBaseDatos();
+    } catch (e) {
+      emit(UsuariosError());
+      return;
+    }
+    if (listadoUsuarios.isEmpty) {
+      //no hay usuarios en local
+      emit(UsuariosError());
+    } else {
+      emit(UsuariosCargados(listadoUsuarios, true));
+    }
   }
 }

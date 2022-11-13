@@ -41,6 +41,10 @@ class _MyHomePageState extends State<PaginaPrincipal> {
                   Navigator.of(context).pop();
                 }
               } else if (state is UsuariosError) {
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                  content: Text("Ha ocurrido un error..."),
+                  backgroundColor: Colors.red,
+                ));
                 Navigator.of(context).pop();
               }
             },
@@ -67,14 +71,16 @@ class _MyHomePageState extends State<PaginaPrincipal> {
                     )
                   ],
                 );
-              } else {
+              } else if (state is UsuariosError) {
                 return Center(
-                  child: TextButton(
-                    child: const Text("Reintentar"),
+                  child: ElevatedButton(
+                    child: const Text("Volver a cargar"),
                     onPressed: () =>
                         context.read<UsuariosBloc>().add(CargarUsuarios()),
                   ),
                 );
+              } else {
+                return const SizedBox();
               }
             },
           ),

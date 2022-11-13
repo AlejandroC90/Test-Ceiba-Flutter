@@ -6,4 +6,4 @@ Proyecto de prueba de Ceiba en Flutter
 
 Este proyecto se hace como prueba para el ingreso a Ceiba como desarrollador Flutter
 
-Desarrollado usando Bloc para manejo de estado de Widgets, Dart http para consumo de servicios Web
+Desarrollado usando Bloc para manejo de estado de Widgets, Dart http para consumo de servicios Web y Sqlflite para el manejo de base de datos para informacion sin conexion
