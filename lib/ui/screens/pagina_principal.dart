@@ -24,10 +24,14 @@ class _MyHomePageState extends State<PaginaPrincipal> {
         title: Text(widget.title),
         backgroundColor: ColoresApp.colorVerdeCeiba,
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: BlocConsumer<UsuariosBloc, UsuariosState>(
+      body: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: busqueda(),
+          ),
+          BlocConsumer<UsuariosBloc, UsuariosState>(
             listener: (context, state) {
               if (state is UsuariosCargando) {
                 showDialog(
@@ -41,27 +45,28 @@ class _MyHomePageState extends State<PaginaPrincipal> {
                   Navigator.of(context).pop();
                 }
               } else if (state is UsuariosError) {
+                Navigator.of(context).pop();
                 ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                   content: Text("Ha ocurrido un error..."),
                   backgroundColor: Colors.red,
                 ));
-                Navigator.of(context).pop();
               }
             },
             builder: (context, state) {
               if (state is UsuariosCargados) {
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    busqueda(),
-                    ...state.listadoUsuarios
-                        .map((u) => TarjetaUsuario(modeloUsuario: u)),
-                  ],
+                return Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: <Widget>[
+                        ...state.listadoUsuarios
+                            .map((u) => TarjetaUsuario(modeloUsuario: u)),
+                      ],
+                    ),
+                  ),
                 );
               } else if (state is UsuariosVacios) {
                 return Column(
                   children: [
-                    busqueda(),
                     Text(
                       "List is empty",
                       style: Theme.of(context)
@@ -84,7 +89,7 @@ class _MyHomePageState extends State<PaginaPrincipal> {
               }
             },
           ),
-        ),
+        ],
       ),
     );
   }

@@ -6,6 +6,7 @@ import 'package:prueba_ceiba_flutter/ui/cards/tarjeta_post.dart';
 
 import '../../static/colors.dart';
 import '../dialogs/dialog_cargando.dart';
+import '../util.dart/fila_datos_usuario.dart';
 
 class PostsUsuario extends StatelessWidget {
   final ModeloUsuario usuario;
@@ -48,6 +49,25 @@ class PostsUsuario extends StatelessWidget {
                       return Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              children: [
+                                FilaDatosUsuario(
+                                    icono: Icons.phone,
+                                    texto: usuario.telefono!),
+                                FilaDatosUsuario(
+                                    icono: Icons.email, texto: usuario.correo!),
+                              ],
+                            ),
+                          ),
+                          Text(
+                            "Publicacion realizadas:",
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline6!
+                                .copyWith(color: ColoresApp.colorVerdeCeiba),
+                          ),
                           ...state.listadoPosts
                               .map((u) => TarjetaPost(modeloPost: u)),
                         ],

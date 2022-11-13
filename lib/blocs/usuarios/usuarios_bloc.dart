@@ -46,6 +46,19 @@ class UsuariosBloc extends Bloc<UsuariosEvent, UsuariosState> {
   ) async {
     emit(UsuariosCargando());
 
+    //hay que buscar los usuarios almacenados en local
+    try {
+      listadoUsuarios = await BaseDatosService().leerUsuariosBaseDatos();
+    } catch (e) {
+      emit(UsuariosError());
+      return;
+    }
+    if (listadoUsuarios.isNotEmpty) {
+      //hay usuarios en local
+      emit(UsuariosCargados(listadoUsuarios, true));
+      return;
+    }
+
     http.Response? respuesta;
     //consumos el servicios
     respuesta = await ApiServicios().traerListadoUsuarios();
@@ -74,19 +87,7 @@ class UsuariosBloc extends Bloc<UsuariosEvent, UsuariosState> {
         }
       }
     }
-    //ocurrio un error al realizar la peticion
-    //hay que buscar los usuarios almacenados en local
-    try {
-      listadoUsuarios = await BaseDatosService().leerUsuariosBaseDatos();
-    } catch (e) {
-      emit(UsuariosError());
-      return;
-    }
-    if (listadoUsuarios.isEmpty) {
-      //no hay usuarios en local
-      emit(UsuariosError());
-    } else {
-      emit(UsuariosCargados(listadoUsuarios, true));
-    }
+    //ocurrio un error al buscar los usuarios
+    emit(UsuariosError());
   }
 }

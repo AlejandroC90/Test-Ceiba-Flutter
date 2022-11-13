@@ -34,6 +34,8 @@ class BaseDatosService {
       final List<Map<String, dynamic>> maps =
           await basedeDatos.query('usuarios');
 
+      basedeDatos.close();
+
       //mapeo la salida a una lista de usuarios
       return List.generate(maps.length, (i) {
         return ModeloUsuario(

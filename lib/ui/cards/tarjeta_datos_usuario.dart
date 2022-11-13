@@ -4,6 +4,7 @@ import 'package:prueba_ceiba_flutter/ui/botones/boton_normal.dart';
 import 'package:prueba_ceiba_flutter/ui/screens/posts_usuario.dart';
 
 import '../../static/colors.dart';
+import '../util.dart/fila_datos_usuario.dart';
 
 ///Tarjeta que se muestra con los datos de cada usuario,
 ///recibe un Modelo de tipo ModeloUsuario
@@ -27,8 +28,9 @@ class TarjetaUsuario extends StatelessWidget {
                   .headline6!
                   .copyWith(color: ColoresApp.colorVerdeCeiba),
             ),
-            filaDatosUsuario(Icons.phone, modeloUsuario.telefono!),
-            filaDatosUsuario(Icons.email, modeloUsuario.correo!),
+            FilaDatosUsuario(
+                icono: Icons.phone, texto: modeloUsuario.telefono!),
+            FilaDatosUsuario(icono: Icons.email, texto: modeloUsuario.correo!),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
@@ -48,21 +50,6 @@ class TarjetaUsuario extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-
-  Widget filaDatosUsuario(IconData icono, String texto) {
-    return Row(
-      children: [
-        Icon(
-          icono,
-          color: ColoresApp.colorVerdeCeiba,
-        ),
-        const SizedBox(
-          width: 5,
-        ),
-        Text(texto)
-      ],
     );
   }
 }
