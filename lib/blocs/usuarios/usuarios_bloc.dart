@@ -38,6 +38,7 @@ class UsuariosBloc extends Bloc<UsuariosEvent, UsuariosState> {
             ModeloUsuario usuario = ModeloUsuario.fromJson(e);
             listadoUsuarios.add(usuario);
           }
+          //enviando usuarios mapeados a la interfaz
           emit(UsuariosCargados(listadoUsuarios));
         } catch (e) {
           //ocurrio un error al mapear los usuarios

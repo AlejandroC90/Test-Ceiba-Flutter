@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:prueba_ceiba_flutter/blocs/usuarios/usuarios_bloc.dart';
 import 'package:prueba_ceiba_flutter/ui/cards/tarjeta_datos_usuario.dart';
+import 'package:prueba_ceiba_flutter/ui/dialogs/dialog_cargando.dart';
 
 import '../../static/colors.dart';
 
@@ -25,7 +26,19 @@ class _MyHomePageState extends State<PaginaPrincipal> {
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: BlocBuilder<UsuariosBloc, UsuariosState>(
+          child: BlocConsumer<UsuariosBloc, UsuariosState>(
+            listener: (context, state) {
+              if (state is UsuariosCargando) {
+                showDialog(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: ((context) {
+                      return DialogCargando();
+                    }));
+              } else {
+                Navigator.of(context).pop();
+              }
+            },
             builder: (context, state) {
               if (state is UsuariosCargados) {
                 return Column(
@@ -36,9 +49,7 @@ class _MyHomePageState extends State<PaginaPrincipal> {
                   ],
                 );
               } else {
-                return const Center(
-                  child: Text("Cargando..."),
-                );
+                return Container();
               }
             },
           ),
