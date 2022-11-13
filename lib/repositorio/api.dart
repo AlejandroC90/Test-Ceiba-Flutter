@@ -11,7 +11,20 @@ class ApiServicios {
     try {
       response = await HttpService().get(ruta: UrlsApp.urlUsuarios);
     } catch (e) {
-      print(e);
+      return response;
+    }
+    return response;
+  }
+
+  ///Para traer post por Usuario
+  Future<http.Response?> traerListadoPostsPorUsuario(String idUsuario) async {
+    http.Response? response;
+
+    try {
+      response =
+          await HttpService().get(ruta: UrlsApp.urlPostsPorUsuario + idUsuario);
+    } catch (e) {
+      return response;
     }
     return response;
   }

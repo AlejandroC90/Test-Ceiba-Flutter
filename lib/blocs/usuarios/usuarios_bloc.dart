@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
 import 'package:prueba_ceiba_flutter/repositorio/model/usuario.dart';
 
@@ -62,14 +62,15 @@ class UsuariosBloc extends Bloc<UsuariosEvent, UsuariosState> {
           }
           //enviando usuarios mapeados a la interfaz
           emit(UsuariosCargados(listadoUsuarios, true));
+          return;
         } catch (e) {
           //ocurrio un error al mapear los usuarios
           emit(UsuariosError());
+          return;
         }
-      } else {
-        //ocurrio un error al realizar la peticion
-        emit(UsuariosError());
       }
     }
+    //ocurrio un error al realizar la peticion
+    emit(UsuariosError());
   }
 }

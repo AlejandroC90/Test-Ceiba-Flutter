@@ -68,7 +68,13 @@ class _MyHomePageState extends State<PaginaPrincipal> {
                   ],
                 );
               } else {
-                return Container();
+                return Center(
+                  child: TextButton(
+                    child: const Text("Reintentar"),
+                    onPressed: () =>
+                        context.read<UsuariosBloc>().add(CargarUsuarios()),
+                  ),
+                );
               }
             },
           ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:prueba_ceiba_flutter/repositorio/model/usuario.dart';
 import 'package:prueba_ceiba_flutter/ui/botones/boton_normal.dart';
+import 'package:prueba_ceiba_flutter/ui/screens/posts_usuario.dart';
 
 import '../../static/colors.dart';
 
@@ -31,7 +32,17 @@ class TarjetaUsuario extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                BotonNormal(texto: "VER PUBLICACIONES", funcion: () {}),
+                BotonNormal(
+                    texto: "VER PUBLICACIONES",
+                    funcion: () {
+                      //al presionar el boton nos vamos a la siguiente pantalla
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                PostsUsuario(usuario: modeloUsuario)),
+                      );
+                    }),
               ],
             )
           ],
