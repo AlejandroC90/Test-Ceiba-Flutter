@@ -16,6 +16,7 @@ class PaginaPrincipal extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<PaginaPrincipal> {
+  final TextEditingController controladorBusqueda = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,9 +34,13 @@ class _MyHomePageState extends State<PaginaPrincipal> {
                     context: context,
                     barrierDismissible: false,
                     builder: ((context) {
-                      return DialogCargando();
+                      return const DialogCargando();
                     }));
-              } else {
+              } else if (state is UsuariosCargados) {
+                if (state.cerrarCargando) {
+                  Navigator.of(context).pop();
+                }
+              } else if (state is UsuariosError) {
                 Navigator.of(context).pop();
               }
             },
@@ -44,8 +49,22 @@ class _MyHomePageState extends State<PaginaPrincipal> {
                 return Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
+                    busqueda(),
                     ...state.listadoUsuarios
                         .map((u) => TarjetaUsuario(modeloUsuario: u)),
+                  ],
+                );
+              } else if (state is UsuariosVacios) {
+                return Column(
+                  children: [
+                    busqueda(),
+                    Text(
+                      "List is empty",
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline6!
+                          .copyWith(color: ColoresApp.colorVerdeCeiba),
+                    )
                   ],
                 );
               } else {
@@ -55,6 +74,23 @@ class _MyHomePageState extends State<PaginaPrincipal> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget busqueda() {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        TextField(
+          controller: controladorBusqueda,
+          decoration: const InputDecoration(labelText: "Buscar Usuario"),
+          onChanged: (value) =>
+              context.read<UsuariosBloc>().add(FiltrarUsuarios(value)),
+        ),
+        const SizedBox(
+          height: 20,
+        ),
+      ],
     );
   }
 }
